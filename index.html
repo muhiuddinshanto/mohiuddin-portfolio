@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhiuddin Shanto — Front-End & WordPress Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080808;
+  --bg2:      #0f0f0f;
+  --bg3:      #141414;
+  --bg4:      #1a1a1a;
+  --border:   rgba(255,255,255,0.06);
+  --border2:  rgba(255,255,255,0.10);
+  --text:     #e8e4dc;
+  --muted:    #5a5954;
+  --muted2:   #888480;
+  --accent:   #d4ff5c;
+  --accent2:  #ff6b35;
+  --white:    #ffffff;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* GRAIN OVERLAY */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.5;
+}
+
+/* CURSOR DOT */
+.cursor{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+  position:fixed;pointer-events:none;
+  z-index:10000;
+  transition:transform 0.15s ease;
+  mix-blend-mode:difference;
+}
+
+/* WRAP */
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:24px 0;
+  transition:all 0.4s ease;
+}
+nav.scrolled{
+  background:rgba(8,8,8,0.88);
+  backdrop-filter:blur(24px) saturate(1.8);
+  border-bottom:1px solid var(--border);
+  padding:16px 0;
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{
+  font-family:'Instrument Serif',serif;
+  font-size:22px;color:var(--white);
+  text-decoration:none;
+  display:flex;align-items:center;gap:4px;
+  letter-spacing:-0.3px;
+}
+.nav-logo-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);
+  display:inline-block;margin-left:2px;
+  animation:dotPulse 2.5s ease-in-out infinite;
+}
+@keyframes dotPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.4);opacity:0.7}
+}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{
+  color:var(--muted2);font-size:13px;font-weight:500;
+  text-decoration:none;letter-spacing:0.04em;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-hire{
+  background:var(--accent);color:#080808 !important;
+  padding:9px 20px;border-radius:100px;
+  font-weight:600 !important;font-size:13px !important;
+  transition:all 0.2s !important;
+}
+.nav-hire:hover{background:#c8f54e;transform:translateY(-1px)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:140px 0 100px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 0%, rgba(212,255,92,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(255,107,53,0.03) 0%, transparent 50%);
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 420px;
+  gap:80px;align-items:center;
+  position:relative;z-index:2;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:28px;
+  font-family:'JetBrains Mono',monospace;
+}
+.hero-tag-line{width:32px;height:1px;background:var(--accent);opacity:0.6}
+
+h1{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(52px,6.5vw,88px);
+  font-weight:400;line-height:1.0;
+  letter-spacing:-2.5px;
+  color:var(--white);margin-bottom:28px;
+}
+h1 em{font-style:italic;color:var(--accent)}
+h1 .stroke-text{
+  -webkit-text-stroke:1px rgba(255,255,255,0.25);
+  color:transparent;
+}
+
+.hero-desc{
+  font-size:17px;color:var(--muted2);
+  line-height:1.8;max-width:500px;margin-bottom:44px;
+}
+.hero-desc strong{color:var(--text);font-weight:500}
+
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+.btn-main{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--accent);color:#080808;
+  padding:15px 32px;border-radius:100px;
+  font-size:14px;font-weight:600;
+  text-decoration:none;transition:all 0.25s;
+  letter-spacing:0.01em;
+}
+.btn-main:hover{background:#c8f54e;transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,255,92,0.2)}
+.btn-main svg{transition:transform 0.2s}
+.btn-main:hover svg{transform:translateX(3px)}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--border2);color:var(--text);
+  padding:15px 28px;border-radius:100px;
+  font-size:14px;font-weight:400;
+  text-decoration:none;transition:all 0.25s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.03)}
+
+/* HERO CARD */
+.hero-card{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:24px;
+  padding:36px;
+  position:relative;overflow:hidden;
+}
+.hero-card-glow{
+  position:absolute;top:-80px;right:-80px;
+  width:240px;height:240px;
+  background:radial-gradient(circle,rgba(212,255,92,0.08),transparent 70%);
+  pointer-events:none;
+}
+.avatar{
+  width:72px;height:72px;border-radius:16px;
+  background:linear-gradient(135deg,var(--accent) 0%,#a8d930 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;color:#080808;
+  margin-bottom:20px;letter-spacing:-0.5px;
+}
+.card-name{
+  font-family:'Instrument Serif',serif;
+  font-size:20px;color:var(--white);margin-bottom:3px;letter-spacing:-0.3px;
+}
+.card-loc{
+  font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  margin-bottom:28px;
+}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat-box{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:18px 16px;
+}
+.stat-num{
+  font-family:'Instrument Serif',serif;
+  font-size:32px;color:var(--white);letter-spacing:-1px;margin-bottom:4px;
+}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+
+.status-pill{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(212,255,92,0.07);border:1px solid rgba(212,255,92,0.15);
+  border-radius:12px;padding:12px 16px;
+  font-size:12px;color:var(--accent);font-weight:500;
+}
+.pulse{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  animation:pulse 2s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,255,92,0.4);opacity:1}
+  50%{box-shadow:0 0 0 7px rgba(212,255,92,0);opacity:0.8}
+}
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--muted);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;
+  animation:floatY 2.5s ease-in-out infinite;
+}
+@keyframes floatY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--muted),transparent);
+}
+
+/* ─── SECTION BASE ─── */
+section{padding:110px 0}
+
+.s-label{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;
+  font-family:'JetBrains Mono',monospace;
+}
+.s-label::before{content:'//'}
+
+.s-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(36px,4.5vw,58px);
+  font-weight:400;line-height:1.05;
+  letter-spacing:-1.5px;color:var(--white);
+  margin-bottom:64px;
+}
+.s-title em{font-style:italic;color:var(--accent)}
+
+/* ─── SKILLS ─── */
+.skills-bento{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-radius:20px;overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--border);
+  gap:1px;
+}
+.sk{
+  background:var(--bg2);padding:32px 28px;
+  display:flex;flex-direction:column;gap:14px;
+  transition:background 0.25s;
+  position:relative;overflow:hidden;
+}
+.sk::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 0% 0%,rgba(212,255,92,0.04),transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.sk:hover{background:var(--bg3)}
+.sk:hover::before{opacity:1}
+.sk-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.sk-name{
+  font-family:'Instrument Serif',serif;
+  font-size:20px;color:var(--white);letter-spacing:-0.4px;
+}
+.sk-desc{font-size:13px;color:var(--muted2);line-height:1.65}
+.sk-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pill{
+  font-size:10px;color:var(--muted2);font-family:'JetBrains Mono',monospace;
+  border:1px solid var(--border2);padding:3px 9px;border-radius:6px;
+  letter-spacing:0.03em;
+}
+
+/* ─── PROJECTS ─── */
+.projects-bento{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);border-radius:20px;overflow:hidden;
+}
+.pj{
+  background:var(--bg2);padding:32px;
+  display:flex;flex-direction:column;
+  transition:background 0.25s;
+  cursor:default;
+}
+.pj:hover{background:var(--bg3)}
+.pj-num{
+  font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.12em;margin-bottom:20px;
+}
+.pj-banner{
+  height:100px;border-radius:12px;margin-bottom:20px;
+  display:flex;align-items:flex-end;padding:16px;
+  position:relative;overflow:hidden;
+}
+.pj-banner-text{
+  font-family:'Instrument Serif',serif;
+  font-size:22px;font-style:italic;color:rgba(255,255,255,0.9);
+  position:relative;z-index:1;letter-spacing:-0.3px;
+}
+.pj-title{
+  font-family:'Instrument Serif',serif;
+  font-size:20px;color:var(--white);margin-bottom:8px;letter-spacing:-0.3px;
+}
+.pj-desc{font-size:13px;color:var(--muted2);line-height:1.65;margin-bottom:20px;flex:1}
+.pj-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.pj-tag{
+  font-size:10px;color:var(--accent);font-family:'JetBrains Mono',monospace;
+  background:rgba(212,255,92,0.07);border:1px solid rgba(212,255,92,0.14);
+  padding:3px 9px;border-radius:6px;
+}
+.pj-link{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--muted2);font-size:12px;font-weight:500;
+  text-decoration:none;transition:color 0.2s;font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.04em;
+}
+.pj-link:hover{color:var(--accent)}
+.pj-link svg{width:12px;transition:transform 0.2s}
+.pj-link:hover svg{transform:translate(3px,-3px)}
+
+/* ─── WORDPRESS ─── */
+.wp-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);border-radius:20px;overflow:hidden;
+}
+.wc{
+  background:var(--bg2);padding:24px 22px;
+  display:flex;flex-direction:column;gap:10px;
+  text-decoration:none;transition:background 0.2s;
+}
+.wc:hover{background:var(--bg3)}
+.wc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.wc-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+.wc-desc{font-size:12px;color:var(--muted2);line-height:1.5}
+.wc-arrow{
+  font-size:16px;color:var(--muted);line-height:1;flex-shrink:0;
+  transition:transform 0.2s,color 0.2s;
+}
+.wc:hover .wc-arrow{transform:translate(3px,-3px);color:var(--accent)}
+.wc-badge{
+  display:inline-block;font-size:9px;font-family:'JetBrains Mono',monospace;
+  color:var(--muted);border:1px solid var(--border2);
+  padding:2px 7px;border-radius:4px;letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+/* ─── ABOUT ─── */
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.about-text p{font-size:16px;color:var(--muted2);line-height:1.85}
+.about-text p + p{margin-top:18px}
+.about-text strong{color:var(--text);font-weight:500}
+
+.process-list{
+  display:flex;flex-direction:column;gap:2px;
+  counter-reset:step;
+}
+.process-item{
+  display:flex;align-items:center;gap:16px;
+  background:var(--bg2);border:1px solid transparent;
+  border-radius:12px;padding:18px 20px;
+  font-size:14px;font-weight:500;color:var(--text);
+  transition:all 0.2s;
+  counter-increment:step;
+  cursor:default;
+}
+.process-item:hover{border-color:var(--border2);background:var(--bg3)}
+.step-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--muted);letter-spacing:0.08em;
+  min-width:24px;
+}
+.process-item::after{content:'→';color:var(--muted);margin-left:auto;font-size:14px;transition:transform 0.2s,color 0.2s}
+.process-item:hover::after{transform:translateX(4px);color:var(--accent)}
+
+/* ─── CONTACT ─── */
+.contact-wrap{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:28px;padding:80px 60px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.contact-wrap::before{
+  content:'';position:absolute;
+  top:-150px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(212,255,92,0.06),transparent 70%);
+  pointer-events:none;
+}
+.contact-grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;
+  opacity:0.4;
+}
+.contact-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(40px,5vw,62px);
+  font-weight:400;line-height:1.05;
+  letter-spacing:-2px;color:var(--white);
+  margin-bottom:16px;position:relative;
+}
+.contact-title em{font-style:italic;color:var(--accent)}
+.contact-sub{
+  font-size:16px;color:var(--muted2);
+  margin-bottom:44px;max-width:380px;margin-left:auto;margin-right:auto;
+  position:relative;
+}
+.contact-btns{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  position:relative;
+}
+.c-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border2);color:var(--text);
+  padding:13px 24px;border-radius:100px;text-decoration:none;
+  font-size:13px;font-weight:500;transition:all 0.2s;
+  background:rgba(255,255,255,0.02);
+  cursor:pointer;font-family:inherit;
+}
+.c-btn:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.05)}
+.c-btn.primary{
+  background:var(--accent);border-color:var(--accent);color:#080808;
+  font-weight:600;
+}
+.c-btn.primary:hover{background:#c8f54e;border-color:#c8f54e}
+.email-show{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--muted);margin-top:24px;position:relative;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  padding:28px 0;border-top:1px solid var(--border);
+}
+.footer-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  font-size:12px;color:var(--muted);
+}
+.footer-inner a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+.footer-inner a:hover{color:var(--text)}
+.footer-mono{font-family:'JetBrains Mono',monospace;font-size:11px}
+
+/* ─── DIVIDER ─── */
+.divider{
+  height:1px;background:linear-gradient(to right,transparent,var(--border2),transparent);
+  margin:0;
+}
+
+/* ─── FADE UP ─── */
+.fu{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease}
+.fu.in{opacity:1;transform:translateY(0)}
+
+/* ─── MARQUEE STRIP ─── */
+.marquee-wrap{
+  padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;background:var(--bg2);
+}
+.marquee-track{
+  display:flex;gap:60px;
+  animation:marquee 30s linear infinite;
+  width:max-content;
+}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.marquee-item{
+  font-size:12px;color:var(--muted2);letter-spacing:0.1em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;white-space:nowrap;
+  display:flex;align-items:center;gap:16px;
+}
+.marquee-item::after{content:'·';color:var(--accent)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero-card{max-width:400px}
+  .skills-bento{grid-template-columns:1fr 1fr}
+  .projects-bento{grid-template-columns:1fr 1fr}
+  .wp-grid{grid-template-columns:1fr 1fr}
+  .about-wrap{grid-template-columns:1fr;gap:48px}
+  .nav-links{display:none}
+  .contact-wrap{padding:52px 32px}
+}
+@media(max-width:600px){
+  .wrap{padding:0 20px}
+  section{padding:80px 0}
+  h1{letter-spacing:-1.5px}
+  .skills-bento{grid-template-columns:1fr}
+  .projects-bento{grid-template-columns:1fr}
+  .wp-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .btn-main,.btn-ghost{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Shanto<span class="nav-logo-dot"></span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#wordpress">WordPress</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nav-hire">Hire me ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="wrap" style="width:100%">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag"><span class="hero-tag-line"></span>Building digital experiences</div>
+        <h1>Front-End<br><em>&amp; WordPress</em><br><span class="stroke-text">Developer</span></h1>
+        <p class="hero-desc">
+          I build <strong>fast, modern interfaces</strong> and high-converting 
+          <strong>WooCommerce stores</strong> — from pixel-perfect React components 
+          to complete sales funnels that drive revenue.
+        </p>
+        <div class="hero-actions">
+          <a href="#work" class="btn-main">
+            View my work
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://github.com/muhiuddinshanto" target="_blank" class="btn-ghost">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="hero-card">
+          <div class="hero-card-glow"></div>
+          <div class="avatar">MS</div>
+          <div class="card-name">Muhiuddin Shanto</div>
+          <div class="card-loc">// Dhaka, Bangladesh</div>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-num">16+</div>
+              <div class="stat-lbl">Live projects</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num">6+</div>
+              <div class="stat-lbl">React apps</div>
+            </div>
+          </div>
+          <div class="status-pill">
+            <div class="pulse"></div>
+            Available for freelance work
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">React & Next.js</span>
+    <span class="marquee-item">WordPress</span>
+    <span class="marquee-item">WooCommerce</span>
+    <span class="marquee-item">Tailwind CSS</span>
+    <span class="marquee-item">CartFlows</span>
+    <span class="marquee-item">Elementor</span>
+    <span class="marquee-item">Sales Funnels</span>
+    <span class="marquee-item">Custom Themes</span>
+    <span class="marquee-item">React & Next.js</span>
+    <span class="marquee-item">WordPress</span>
+    <span class="marquee-item">WooCommerce</span>
+    <span class="marquee-item">Tailwind CSS</span>
+    <span class="marquee-item">CartFlows</span>
+    <span class="marquee-item">Elementor</span>
+    <span class="marquee-item">Sales Funnels</span>
+    <span class="marquee-item">Custom Themes</span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section>
+  <div class="wrap">
+    <div class="s-label fu">Expertise</div>
+    <h2 class="s-title fu">What I <em>build</em></h2>
+    <div class="skills-bento fu">
+      <div class="sk">
+        <div class="sk-icon">⚛️</div>
+        <div class="sk-name">React & Next.js</div>
+        <div class="sk-desc">Modern SPAs and SSR applications with hooks, context, routing, and clean component architecture.</div>
+        <div class="sk-pills">
+          <span class="pill">React 18</span><span class="pill">Next.js 14</span><span class="pill">Vite</span><span class="pill">Recharts</span>
+        </div>
+      </div>
+      <div class="sk">
+        <div class="sk-icon">🎨</div>
+        <div class="sk-name">UI & Styling</div>
+        <div class="sk-desc">Pixel-perfect, responsive interfaces using modern CSS, Tailwind utility-first workflow, and DaisyUI.</div>
+        <div class="sk-pills">
+          <span class="pill">Tailwind CSS</span><span class="pill">DaisyUI</span><span class="pill">CSS Grid</span><span class="pill">Flexbox</span>
+        </div>
+      </div>
+      <div class="sk">
+        <div class="sk-icon">🛒</div>
+        <div class="sk-name">WordPress & Woo</div>
+        <div class="sk-desc">Custom themes, performance-optimised stores, and complete e-commerce setups from scratch.</div>
+        <div class="sk-pills">
+          <span class="pill">WooCommerce</span><span class="pill">WoodMart</span><span class="pill">Elementor</span>
+        </div>
+      </div>
+      <div class="sk">
+        <div class="sk-icon">💸</div>
+        <div class="sk-name">Sales Funnels</div>
+        <div class="sk-desc">High-converting product pages, one-page checkouts, upsells and landing pages that close deals.</div>
+        <div class="sk-pills">
+          <span class="pill">CartFlows</span><span class="pill">One-page checkout</span><span class="pill">Upsells</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="work">
+  <div class="wrap">
+    <div class="s-label fu">GitHub</div>
+    <h2 class="s-title fu">React <em>projects</em></h2>
+    <div class="projects-bento fu">
+
+      <div class="pj">
+        <div class="pj-num">// 001</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#1a0533,#2d1060)">
+          <div class="pj-banner-text">AI Hub</div>
+        </div>
+        <div class="pj-title">AI Model Hub</div>
+        <div class="pj-desc">Subscription platform for AI tools — cart management, dynamic price calculator, and plan comparison.</div>
+        <div class="pj-stack"><span class="pj-tag">React</span><span class="pj-tag">Tailwind CSS</span><span class="pj-tag">DaisyUI</span></div>
+        <a href="https://github.com/muhiuddinshanto/ai-model-hub" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+      <div class="pj">
+        <div class="pj-num">// 002</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#0c1a40,#1a2d7a)">
+          <div class="pj-banner-text">Keeper</div>
+        </div>
+        <div class="pj-title">Keen Keeper</div>
+        <div class="pj-desc">Friendship analytics dashboard with data visualizations — pie charts, relationship insights, built with Recharts.</div>
+        <div class="pj-stack"><span class="pj-tag">Next.js</span><span class="pj-tag">Recharts</span><span class="pj-tag">Tailwind</span></div>
+        <a href="https://github.com/muhiuddinshanto/Keen-Keeper" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+      <div class="pj">
+        <div class="pj-num">// 003</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#012d1c,#025c36)">
+          <div class="pj-banner-text">Payoo</div>
+        </div>
+        <div class="pj-title">Payoo Banking</div>
+        <div class="pj-desc">Mobile banking UI simulation — live balance updates, transaction history, clean app-like UX.</div>
+        <div class="pj-stack"><span class="pj-tag">Vanilla JS</span><span class="pj-tag">Tailwind</span></div>
+        <a href="https://github.com/muhiuddinshanto/payoo" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+      <div class="pj">
+        <div class="pj-num">// 004</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#3a0a00,#8a2500)">
+          <div class="pj-banner-text">DigiTools</div>
+        </div>
+        <div class="pj-title">Digi Tools</div>
+        <div class="pj-desc">Product landing page for digital tools — responsive design with modern layout, built fast with Vite.</div>
+        <div class="pj-stack"><span class="pj-tag">React</span><span class="pj-tag">Vite</span><span class="pj-tag">Tailwind</span></div>
+        <a href="https://github.com/muhiuddinshanto/Digi-Tools" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+      <div class="pj">
+        <div class="pj-num">// 005</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#002840,#005080)">
+          <div class="pj-banner-text">GoodPanda</div>
+        </div>
+        <div class="pj-title">Good Panda</div>
+        <div class="pj-desc">E-commerce landing page — pure HTML/CSS with Flexbox & Grid, fully responsive, no framework needed.</div>
+        <div class="pj-stack"><span class="pj-tag">HTML5</span><span class="pj-tag">CSS3</span><span class="pj-tag">Responsive</span></div>
+        <a href="https://github.com/muhiuddinshanto/good-panda-woocommerce" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+      <div class="pj">
+        <div class="pj-num">// 006</div>
+        <div class="pj-banner" style="background:linear-gradient(135deg,#380a28,#8a1a58)">
+          <div class="pj-banner-text">TechWave</div>
+        </div>
+        <div class="pj-title">Tech Wave Podcast</div>
+        <div class="pj-desc">Modern podcast landing page using CSS custom properties and media queries. Clean, structured layout.</div>
+        <div class="pj-stack"><span class="pj-tag">HTML/CSS</span><span class="pj-tag">CSS Variables</span></div>
+        <a href="https://github.com/muhiuddinshanto/tech-wave" target="_blank" class="pj-link">
+          view on github
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H9M19 5v10"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORDPRESS -->
+<section id="wordpress">
+  <div class="wrap">
+    <div class="s-label fu">WordPress & WooCommerce</div>
+    <h2 class="s-title fu">Live <em>demos</em></h2>
+    <div class="wp-grid fu">
+
+      <a href="https://lekhashikhi.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">LekhaShikhi</div><div class="wc-desc">Handwriting & course notebook e-commerce store.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Woo + Elementor</span>
+      </a>
+
+      <a href="https://hibbanfashion.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Hibban Fashion</div><div class="wc-desc">Punjabi & gift box clothing store — full WooCommerce setup.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">WoodMart + Elementor</span>
+      </a>
+
+      <a href="https://epicoptimize.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Epic Optimize</div><div class="wc-desc">Digital marketing agency corporate website.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Elementor + Hello</span>
+      </a>
+
+      <a href="https://demo1.epicoptimize.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Epic Optimize Demo</div><div class="wc-desc">Freelancing & online course promo landing page.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Lead gen</span>
+      </a>
+
+      <a href="https://shop.hibbanfashion.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Hibban Shop</div><div class="wc-desc">Punjabi sales page with CartFlows checkout funnel.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Woo + CartFlows</span>
+      </a>
+
+      <a href="https://shop.hibbanfashion.com/step/gift-box/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Hibban Gift Box</div><div class="wc-desc">Islamic gift box — CartFlows sales funnel.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">CartFlows</span>
+      </a>
+
+      <a href="https://bundle.lekhashikhi.com/step/big-book/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">LekhaShikhi Bundle</div><div class="wc-desc">Notebook bundle sales funnel with upsells.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">CartFlows funnel</span>
+      </a>
+
+      <a href="https://rakibfashion.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Rakib Fashion</div><div class="wc-desc">Pyjama product sales page — custom WooCommerce design.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Woo + Tailwind</span>
+      </a>
+
+      <a href="https://work.epicoptimize.com/step/panjabi-four/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Panjabi Four (Premium)</div><div class="wc-desc">High-converting premium panjabi product page.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">High-converting</span>
+      </a>
+
+      <a href="https://work.epicoptimize.com/step/panjabi-one/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Panjabi One (Cotton)</div><div class="wc-desc">Premium cotton panjabi set landing page.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">CartFlows funnel</span>
+      </a>
+
+      <a href="https://work.epicoptimize.com/step/panjabi-two/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Panjabi Two (Discount)</div><div class="wc-desc">Discounted panjabi offer with optimised checkout.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Sales funnel</span>
+      </a>
+
+      <a href="https://work.epicoptimize.com/step/al-muttaki/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Al-Muttaki Gift</div><div class="wc-desc">Islamic gift package — CartFlows one-page checkout.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Woo + CartFlows</span>
+      </a>
+
+      <a href="https://work.epicoptimize.com/step/sukkari-mufaddal/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Sukkari Mufaddal</div><div class="wc-desc">Saudi dates — one-page checkout with urgency elements.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">One-page checkout</span>
+      </a>
+
+      <a href="https://blacklabelpharma.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">Black Label Pharma</div><div class="wc-desc">UK prescription pharmacy — professional medical e-commerce.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">WoodMart + Elementor</span>
+      </a>
+
+      <a href="https://ukpills.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">UK Pills</div><div class="wc-desc">UK-based prescription medication WooCommerce store.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">Woo + WoodMart</span>
+      </a>
+
+      <a href="https://usapharmaonline.com/" target="_blank" class="wc">
+        <div class="wc-head">
+          <div><div class="wc-name">USA Pharma Online</div><div class="wc-desc">US-focused prescription & wellness pharmacy store.</div></div>
+          <div class="wc-arrow">↗</div>
+        </div>
+        <span class="wc-badge">WooCommerce + Elementor</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="s-label fu">About</div>
+    <h2 class="s-title fu">Who I <em>am</em></h2>
+    <div class="about-wrap fu">
+      <div class="about-text">
+        <p>I'm <strong>Muhiuddin Shanto</strong>, a front-end and WordPress developer based in Dhaka, Bangladesh. I specialise in building clean, fast, and conversion-focused digital experiences.</p>
+        <p>Whether it's a <strong>React dashboard, a WooCommerce store</strong>, or a sales funnel that needs to convert — I bring the same level of care and craft to every project.</p>
+        <p>I take pride in writing code that is <strong>maintainable, readable, and purpose-built</strong> — not just for the next sprint, but for the long term.</p>
+      </div>
+      <div>
+        <div class="process-list">
+          <div class="process-item"><span class="step-num">01</span>React & Next.js web applications</div>
+          <div class="process-item"><span class="step-num">02</span>WooCommerce store setup & customisation</div>
+          <div class="process-item"><span class="step-num">03</span>Sales funnel design (CartFlows)</div>
+          <div class="process-item"><span class="step-num">04</span>Custom WordPress themes</div>
+          <div class="process-item"><span class="step-num">05</span>Landing page development</div>
+          <div class="process-item"><span class="step-num">06</span>Responsive UI implementation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-wrap fu">
+      <div class="contact-grid-bg"></div>
+      <div class="contact-title">Let's build<br><em>something great</em></div>
+      <p class="contact-sub">Open for freelance projects and long-term collaborations. Let's talk.</p>
+      <div class="contact-btns">
+        <a href="mailto:muhiuddinshanto@gmail.com" class="c-btn primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Send email
+        </a>
+        <button id="copyBtn" class="c-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy email
+        </button>
+        <a href="https://github.com/muhiuddinshanto" target="_blank" class="c-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/mohiuddin-shanto/" target="_blank" class="c-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <p class="email-show">muhiuddinshanto@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span>© 2025 Muhiuddin Shanto</span>
+      <span class="footer-mono" style="color:var(--muted)">// Front-End & WordPress Developer · Dhaka, BD</span>
+      <a href="https://github.com/muhiuddinshanto" target="_blank">GitHub ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px';
+  cursor.style.top = my - 4 + 'px';
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+  el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+});
+
+// Sticky nav
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Fade up on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('in'), i * 80);
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+// Copy email
+document.getElementById('copyBtn').addEventListener('click', function() {
+  navigator.clipboard.writeText('muhiuddinshanto@gmail.com');
+  const orig = this.innerHTML;
+  this.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+  this.style.color = 'var(--accent)';
+  this.style.borderColor = 'rgba(212,255,92,0.3)';
+  setTimeout(() => {
+    this.innerHTML = orig;
+    this.style.color = '';
+    this.style.borderColor = '';
+  }, 2000);
+});
+</script>
+</body>
+</html>
